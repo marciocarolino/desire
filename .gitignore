@@ -1,0 +1,5 @@
+#all logs
+*.logs
+
+#node_modules backend
+.\backend\desire\node_modules
