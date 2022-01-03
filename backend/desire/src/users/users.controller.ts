@@ -9,8 +9,8 @@ export class UserController {
 
 
     @Get()
-    UserHello(): string {
-        return this.userService.olaMundo();
+    async UserHello(createUserDTO: CreateUserDTO): Promise<CreateUserDTO> {
+        return this.userService.getAllUsers(createUserDTO);
     }
 
     @Post()
