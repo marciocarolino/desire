@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/createUser.dto';
 
 
 
-@Controller('desires')
+@Controller('users')
 export class UserController {
 
 
@@ -12,18 +12,23 @@ export class UserController {
         return 'Todos os usuários';
     }
 
-    @Post(':createUser')
+    @Post()
     createUser(@Body() createUserDto: CreateUserDto) {
-        return 'Criando usuario' + createUserDto;
+        return 'Usuario Criado: ' + '\n'
+            + 'Nome: ' + createUserDto.name + '\n'
+            + 'Email: ' + createUserDto.email + '\n'
+            + 'Telefone: ' + createUserDto.phone + '\n'
+            + 'Cidade: ' + createUserDto.city + '\n'
+            + 'Estado: ' + createUserDto.state + '\n'
     }
 
     @Put(':id')
     updateUser(@Param('id') id: number, @Body() body: string) {
-        return 'Atualizando usuario ' + id;
+        return 'Usuario Atualizado ' + id;
     }
 
     @Delete(':id')
     deleteUser(@Param('id') id: number) {
-        return 'Deletando usuario ' + id;
+        return 'Usuário Deletado ' + id;
     }
 }
