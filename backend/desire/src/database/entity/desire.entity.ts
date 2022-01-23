@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 
 
-@Entity()
+@Entity('tb_desire')
 export class DesireEntity {
 
 
