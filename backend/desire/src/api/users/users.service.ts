@@ -1,10 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
-import { RpcException } from '@nestjs/microservices';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersRepository } from 'src/database/repository/users.repository';
 import { UsersDto } from './dto/users.dto';
 
