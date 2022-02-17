@@ -24,13 +24,7 @@ export class UsersService {
 
     if (!verifyEmail) {
       const user = await this.usersRepository.save({
-        name: usersDto.name,
-        sex: usersDto.sex,
-        email: usersDto.email,
-        cell: usersDto.cell,
-        city: usersDto.city,
-        state: usersDto.state,
-        password: usersDto.password,
+        ...usersDto,
         create_at: new Date(),
         update_at: new Date(),
       });
