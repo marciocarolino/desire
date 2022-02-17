@@ -7,6 +7,7 @@ create table tb_users(
  city varchar(80) not null,
  state varchar(50) not null,
  password varchar(255) not null,
+ is_active boolean,
  create_at TIMESTAMP,
  update_at TIMESTAMP  
 );

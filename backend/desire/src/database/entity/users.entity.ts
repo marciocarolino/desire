@@ -26,6 +26,9 @@ export class Users {
   @Column({ name: 'password' })
   password: string;
 
+  @Column({ name: 'is_active' })
+  is_active: boolean;
+
   @Column({ type: 'timestamptz', name: 'create_at', default: new Date() })
   create_at: Date;
 
