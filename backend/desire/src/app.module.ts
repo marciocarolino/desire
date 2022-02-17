@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
-import * as Joi from '@hapi/joi';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UserModule } from './api/user/user.module';
+import { ApiModule } from './api/api.module';
+import { DataBaseModule } from './database/database.module';
 
 @Module({
-  imports: [UserModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [DataBaseModule, ApiModule],
+  controllers: [],
+  providers: [],
 })
-export class AppModule { }
+export class AppModule {}
