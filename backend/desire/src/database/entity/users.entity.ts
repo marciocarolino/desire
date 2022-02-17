@@ -1,9 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Desire } from './desire.entity';
 
 @Entity('tb_users')
 export class Users {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
+
+  @OneToMany(() => Desire, (desire) => desire.users)
+  desire: Desire;
 
   @Column({ name: 'name' })
   name: string;
