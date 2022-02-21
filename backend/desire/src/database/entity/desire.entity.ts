@@ -21,4 +21,13 @@ export class Desire {
 
   @Column({ name: 'description' })
   description: string;
+
+  @Column({ name: 'is_active' })
+  is_active: boolean;
+
+  @Column({ type: 'timestamptz', name: 'create_at' })
+  create_at: Date;
+
+  @Column({ type: 'timestamptz', name: 'update_at' })
+  update_at;
 }

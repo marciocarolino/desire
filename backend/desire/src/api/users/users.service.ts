@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UsersRepository } from 'src/database/repository/users.repository';
 import { PasswordHash } from '../passwordHash';
-import { UsersDto } from './dto/users.dto';
+import { UsersDto, UsersUpdateDto } from './dto/users.dto';
 
 @Injectable()
 export class UsersService {
@@ -38,7 +38,32 @@ export class UsersService {
     }
   }
 
-  async userFindId(id: number): Promise<any> {
-    return await this.usersRepository.findOne(id);
+  async userFindId(id: number): Promise<UsersDto> {
+    return await this.usersRepository.findOne({
+      where: { id, is_active: true },
+    });
+  }
+
+  async usersUpdate(
+    usersUpdateDto: UsersUpdateDto,
+    id: number,
+  ): Promise<UsersUpdateDto> | undefined {
+    const hash = await this.passwordHash.password(usersUpdateDto.password, 10);
+    let updateUser = await this.usersRepository.findOne({
+      where: { id, is_active: true },
+    });
+
+    if (!usersUpdateDto) return undefined;
+    updateUser.name = usersUpdateDto.name;
+    updateUser.sex = usersUpdateDto.sex;
+    updateUser.cell = usersUpdateDto.cell;
+    updateUser.city = usersUpdateDto.city;
+    updateUser.state = usersUpdateDto.state;
+    updateUser.password = hash;
+    updateUser.update_at = new Date();
+
+    updateUser = await this.usersRepository.save(updateUser);
+
+    return updateUser;
   }
 }
