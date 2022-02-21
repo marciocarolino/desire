@@ -53,17 +53,18 @@ export class UsersService {
       where: { id, is_active: true },
     });
 
-    if (!usersUpdateDto) return undefined;
-    updateUser.name = usersUpdateDto.name;
-    updateUser.sex = usersUpdateDto.sex;
-    updateUser.cell = usersUpdateDto.cell;
-    updateUser.city = usersUpdateDto.city;
-    updateUser.state = usersUpdateDto.state;
-    updateUser.password = hash;
-    updateUser.update_at = new Date();
-
-    updateUser = await this.usersRepository.save(updateUser);
-
-    return updateUser;
+    if (updateUser) {
+      updateUser.name = usersUpdateDto.name;
+      updateUser.sex = usersUpdateDto.sex;
+      updateUser.cell = usersUpdateDto.cell;
+      updateUser.city = usersUpdateDto.city;
+      updateUser.state = usersUpdateDto.state;
+      updateUser.password = hash;
+      updateUser.update_at = new Date();
+      updateUser = await this.usersRepository.save(updateUser);
+      return updateUser;
+    } else {
+      throw new HttpException('ID not exists', HttpStatus.METHOD_NOT_ALLOWED);
+    }
   }
 }
