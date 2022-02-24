@@ -1,17 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
 import { UsersRepository } from 'src/database/repository/users.repository';
 import { PasswordHash } from '../passwordHash';
-import { UsersDto, UsersUpdateDto } from './dto/users.dto';
+import { UsersDto, UsersUpdateDto, UsersDeleteDto } from './dto/users.dto';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  passwordHash = new PasswordHash();
-
   async usersAll(): Promise<any> {
     return await this.usersRepository.find({
+      where: { is_active: true },
       order: { id: 'ASC' },
     });
   }
@@ -19,7 +17,7 @@ export class UsersService {
   async userSave(usersDto: UsersDto): Promise<UsersDto> {
     const email = usersDto.email;
     const verifyEmail = await this.usersRepository.findOne({ email });
-    const hash = await this.passwordHash.password(usersDto.password, 10);
+    const hash = await PasswordHash.password(usersDto.password, 10);
 
     if (!verifyEmail) {
       const user = await this.usersRepository.save({
@@ -48,10 +46,12 @@ export class UsersService {
     usersUpdateDto: UsersUpdateDto,
     id: number,
   ): Promise<UsersUpdateDto> | undefined {
-    const hash = await this.passwordHash.password(usersUpdateDto.password, 10);
+    const hash = await PasswordHash.password(usersUpdateDto.password, 10);
     let updateUser = await this.usersRepository.findOne({
       where: { id, is_active: true },
     });
+
+    if (!updateUser) return undefined;
 
     if (updateUser) {
       updateUser.name = usersUpdateDto.name;
@@ -66,5 +66,20 @@ export class UsersService {
     } else {
       throw new HttpException('ID not exists', HttpStatus.METHOD_NOT_ALLOWED);
     }
+  }
+
+  async deleteUser(id: number): Promise<UsersDeleteDto> | undefined {
+    const users = await this.usersRepository.findOne({
+      where: { id, is_active: true },
+    });
+
+    if (!users) return undefined;
+
+    users.update_at = new Date();
+    users.is_active = false;
+
+    await this.usersRepository.save(users);
+
+    return { result: true };
   }
 }
