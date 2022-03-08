@@ -21,7 +21,7 @@ export class DesireService {
   }
 
   async desireSave(desireDto: DesireDto): Promise<any> {
-    return await this.desireRepository.save({
+    return this.desireRepository.save({
       ...desireDto,
       is_active: true,
       create_at: new Date(),

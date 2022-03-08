@@ -8,7 +8,7 @@ export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
   async usersAll(): Promise<any> {
-    return await this.usersRepository.find({
+    return this.usersRepository.find({
       where: { is_active: true },
       order: { id: 'ASC' },
     });
@@ -20,7 +20,7 @@ export class UsersService {
     const hash = await PasswordHash.password(usersDto.password, 10);
 
     if (!verifyEmail) {
-      const user = await this.usersRepository.save({
+      const user = this.usersRepository.save({
         ...usersDto,
         password: hash,
         is_active: true,
@@ -37,7 +37,7 @@ export class UsersService {
   }
 
   async userFindId(id: number): Promise<UsersDto> {
-    return await this.usersRepository.findOne({
+    return this.usersRepository.findOne({
       where: { id, is_active: true },
     });
   }
