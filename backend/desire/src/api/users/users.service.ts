@@ -20,14 +20,13 @@ export class UsersService {
     const hash = await PasswordHash.password(usersDto.password, 10);
 
     if (!verifyEmail) {
-      const user = this.usersRepository.save({
+      return this.usersRepository.save({
         ...usersDto,
         password: hash,
         is_active: true,
         create_at: new Date(),
         update_at: new Date(),
       });
-      return user;
     } else {
       throw new HttpException(
         'Email already exists',
