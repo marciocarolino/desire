@@ -21,13 +21,12 @@ export class DesireService {
   }
 
   async desireSave(desireDto: DesireDto): Promise<any> {
-    const desireSave = await this.desireRepository.save({
+    return await this.desireRepository.save({
       ...desireDto,
       is_active: true,
       create_at: new Date(),
       update_at: new Date(),
     });
-    return desireSave;
   }
 
   async desireUpdate(
